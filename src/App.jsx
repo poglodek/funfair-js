@@ -1,8 +1,16 @@
-
 import './App.css';
+import React from 'react';
+import { Routes, Route, BrowserRouter } from "react-router-dom"
+import { Home } from './pages/HomePage';
 
 function App() {
-  return (<h1>First commit</h1>  );
+  return (
+      <BrowserRouter>
+       <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+     </BrowserRouter>
+   );
 }
 
 export default App;
