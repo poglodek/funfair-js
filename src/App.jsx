@@ -3,8 +3,9 @@ import React from 'react';
 import { Routes, Route } from "react-router-dom"
 import { Home } from './pages/HomePage';
 import { Login } from './pages/LoginPage';
-import { NavBar } from './pages/NavBar';
-import { Footer } from './pages/Footer';
+import { NavBar } from './components/NavBar';
+import { Footer } from './components/Footer';
+
 
 function App() {
   return (
