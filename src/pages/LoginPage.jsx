@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Submit } from '../components/Submit';
+import { LinkButton } from '../components/LinkButton';
 
 
 export function Login() {
@@ -41,11 +43,8 @@ export function Login() {
                         />
                     </div>
                     <div className="flex items-center justify-between">
-                        <button
-                            type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Login!
-                        </button>
+                        <Submit text="Login!"/>
+                        <LinkButton text="Register!" destiny="/register" />
                     </div>
                 </form>
             </div>
