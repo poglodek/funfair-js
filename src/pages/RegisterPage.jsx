@@ -27,7 +27,7 @@ export function Register() {
                 <form onSubmit={handleSubmit} className="bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <Input id="firstName" type="text" placeholder="First name" value={firstName} setValue={setFirstName} />
                 <Input id="lastName" type="text" placeholder="Last name" value={lastName} setValue={setLastName} />
-                <DatePicker selected={dateOfBirth} onChange={(date) => setDateOfBirth(date)} className="block text-gray-700 text-sm font-bold mb-2 mb-4"  />
+                <DatePicker selected={dateOfBirth} onChange={(date) => setDateOfBirth(date)} className="block text-gray-700 text-sm font-bold"  />
                 <Input id="mail" type="mail" placeholder="Mail" value={mail} setValue={setMail} />
                 <Input id="password" type="password" placeholder="Password" value={password} setValue={setPassword} />
                     <div className="flex items-center justify-between">
