@@ -1,9 +1,9 @@
 import { Button } from "./Button";
 
-export function Submit({ text }) {
+export function Submit({ text, onSubmit }) {
 
     return (
-        <Button text={text} />
+        <Button text={text} callBack={onSubmit} />
 
     );
 }
