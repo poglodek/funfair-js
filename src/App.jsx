@@ -20,7 +20,7 @@ function App() {
 
    return (
       <div className="bg-gradient-to-t from-gray-900 to-gray-700 text-white p-4  h-screen">
-         <NavBar user={user}/>
+         <NavBar user={user} />
 
          <div className=" h-5/6">
 
