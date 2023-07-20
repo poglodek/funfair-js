@@ -4,6 +4,7 @@ import { LinkButton } from '../components/LinkButton';
 import { Input } from '../components/Input';
 import { useNavigate } from 'react-router-dom';
 import ScreenPopup from '../components/ScreenPopup';
+import { apiRequest } from '../utilities/api/apiHandler';
 
 
 
@@ -14,11 +15,22 @@ export function Login({ setUser }) {
     const navigate = useNavigate();
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO logic
-        console.log('Mail:', mail);
-        console.log('Password:', password);
+
+        const request =  {
+            endpoint: 'http://localhost:5146/SignUp',
+            method: 'POST',
+            body:  {
+                mail: mail,
+                password: password
+            }
+        };
+
+        const response = await   apiRequest(request);
+
+        alert(response.statusCode);
+        alert(response.ErrorMessage);
 
         setUser({
             'mail': { mail },
