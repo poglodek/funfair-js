@@ -6,6 +6,10 @@ import { Input } from '../components/Input';
 import { ErrorList } from '../components/ErrorList';
 import StringHelper from '../utilities/helpers/StringHelper';
 import EmailValidator from '../utilities/helpers/MailHelper';
+import { apiRequest } from '../utilities/api/apiHandler';
+import { API_USERS } from '../utilities/helpers/Consts';
+import { apiResponseMessages } from '../utilities/helpers/ApiErrorMessage';
+import ScreenPopup from '../components/ScreenPopup';
 
 export function Register() {
 
@@ -18,9 +22,12 @@ export function Register() {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState(['']);
+    const [popupInfo, setPopupInfo] = useState('Server Error');
+    const [isOpen, setIsOpen] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
+        
         const validErrors = [];
 
         if (StringHelper.isStringEmptyOrWhitespace(firstName) || firstName.length < 3) {
@@ -38,13 +45,45 @@ export function Register() {
 
         setErrors(validErrors);
 
+        
+
+        if(validErrors.length === 0)
+        {
+            console.log('API');
+
+            const request =  {
+                endpoint: `${API_USERS}SignUp`,
+                method: 'POST',
+                body:  {
+                    FirstName: firstName,
+                    LastName: lastName,
+                    DateOfBirth: dateOfBirth,
+                    Email: mail,
+                    password: password
+                }
+            };
+
+            const response = await apiRequest(request);
+           
+            console.log(response);
+
+            if(!response.isSuccess){
+                setPopupInfo(apiResponseMessages(response.ErrorMessage));
+            }else{
+                setPopupInfo('Register successfully');
+            }
+
+            setIsOpen(true);
+        }
+
     };
 
     return (
 
         <div className="justify-center flex mb-5">
+            <ScreenPopup text={popupInfo} isOpen={isOpen} setIsOpen={setIsOpen}  />
             <div className="max-w-md mx-auto mt-8">
-                <form className="bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div className="bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <Input id="firstName" type="text" placeholder="First name" value={firstName} setValue={setFirstName} />
                     <Input id="lastName" type="text" placeholder="Last name" value={lastName} setValue={setLastName} />
                     <DatePicker selected={dateOfBirth} onChange={(date) => setDateOfBirth(date)} className="block text-gray-700 text-sm font-bold" maxDate={minmalDate} />
@@ -56,7 +95,7 @@ export function Register() {
                         <Submit text="Register Now!" onSubmit={handleSubmit} />
                     </div>
                     <ErrorList list={errors} />
-                </form>
+                </div>
             </div>
         </div>
     )

@@ -5,6 +5,7 @@ import { Input } from '../components/Input';
 import { useNavigate } from 'react-router-dom';
 import ScreenPopup from '../components/ScreenPopup';
 import { apiRequest } from '../utilities/api/apiHandler';
+import { API_USERS } from '../utilities/helpers/Consts';
 
 
 
@@ -12,6 +13,7 @@ export function Login({ setUser }) {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('Server Error!');
     const navigate = useNavigate();
 
 
@@ -19,32 +21,42 @@ export function Login({ setUser }) {
         e.preventDefault();
 
         const request =  {
-            endpoint: 'http://localhost:5146/SignUp',
+            endpoint: `${API_USERS}SignIn`,
             method: 'POST',
             body:  {
-                mail: mail,
+                Email: mail,
                 password: password
             }
         };
 
-        const response = await   apiRequest(request);
+        const response = await apiRequest(request);
 
-        alert(response.statusCode);
-        alert(response.ErrorMessage);
+        console.log(response);
 
-        setUser({
-            'mail': { mail },
-            'token': true
-        });
+        if(response.statusCode === 200)
+        {
+            setUser({
+                'mail': { mail },
+                'token': true,
+                'bearerToken' : response.JWT,
+                'userId': response.UserId
+            });
+    
+            setErrorMessage('Login successfully!');
+            setIsOpen(true);
+            navigate('/');
+        }
 
+        setErrorMessage('Invalid password or mail');
         setIsOpen(true);
-      //  navigate('/');
+        
+
     };
 
 
     return (
         <div className="justify-center flex">
-        <ScreenPopup text="Login successfully!" isOpen={isOpen} setIsOpen={setIsOpen}  />
+        <ScreenPopup text={errorMessage} isOpen={isOpen} setIsOpen={setIsOpen}  />
             <div className="max-w-md mx-auto mt-8">
                 <form onSubmit={handleSubmit} className="bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <Input id="mail" type="mail" placeholder="Mail" value={mail} setValue={setMail} />

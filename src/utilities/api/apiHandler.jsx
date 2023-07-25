@@ -29,7 +29,11 @@ export const apiRequest = async (requestData) => {
       } else if (response.status === 401) {
         Response.UnAuthorized = true;
       } else if (response.status === 200) {
-        Response.Object = await response.json();
+
+        if(response.bodyUsed){
+          Response.Object = await response.json();
+        }
+        
       } else {
         console.log(await response.text());
         Response.ErrorMessage = await response.text();//'Unexpected response from the server. Try again later!';
